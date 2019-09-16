@@ -3,7 +3,7 @@ const app = express();
 const port = 4000;
 
 app.get('/', (req, res) => {
-    res.send('Wellcome to Express');    
+    res.send('Wellcome to Express');
 });
 
 app.post('/', (req, res) => {
@@ -58,12 +58,21 @@ app.route('/books')
 
 var birds = require('./birds');
 
-app.use('/birds',birds);
+app.use('/birds', birds);
 
-app.use('/user/:id',(req,res,next)=>{
-    debugger;
-    console.log(req);    
+app.use('/user/:id', (req, res, next) => {
+    let id= parseInt(req.params.id);
+    if(id ===0)
+        next('route');
+    else
+        next()   
+},(req,res)=>{
+    res.send('Regular');
 });
+
+// app.get('/user/:id', (req, res, next) => {
+//     res.send('USER')
+// });
 
 app.listen(port, () => {
     console.log('Server started on: ', port);
